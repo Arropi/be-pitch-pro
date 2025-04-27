@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  user_id         Int             @id(map: "user_pkey") @default(autoincrement())
+  email           String          @unique(map: "email_unique") @db.VarChar
+  username        String          @unique(map: "username_unique") @db.VarChar
+  xp              Int             @default(0)
+  avatar          Bytes?
+  hash_password   String          @db.VarChar
+  created_at      DateTime        @default(now()) @db.Timestamp(6)
+  updated_at      DateTime        @default(now()) @db.Timestamp(6)
+  avatar_mimetype String?         @db.VarChar
+  user_detail     user_detail[]
+  user_progress   user_progress[]
+}
+
+model stories {
+  story_id           Int             @id(map: "story_id_pk") @default(autoincrement())
+  tema               String?         @db.VarChar
+  system_instruction String?         @db.VarChar
+  chapter            Int?
+  user_progress      user_progress[]
+}
+
+model user_progress {
+  progress_id     Int              @id(map: "progress_user_pk") @default(autoincrement())
+  user_id         Int
+  story_id        Int
+  time_do         DateTime         @default(now()) @db.Timestamp(6)
+  detail_progress detail_progress?
+  post_test       post_test[]
+  pre_test        pre_test[]
+  stories         stories          @relation(fields: [story_id], references: [story_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_progress_story")
+  users           users            @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_progress_user")
+}
+
+model detail_progress {
+  progress_id      Int           @id(map: "pk_progress_id")
+  audio            Bytes?
+  feedback_history String?       @db.VarChar
+  accumulate_xp    Int?
+  user_progress    user_progress @relation(fields: [progress_id], references: [progress_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_progress_detail_progress")
+}
+
+model post_test {
+  post_test_id   Int           @id(map: "pk_post_test") @default(autoincrement())
+  progress_id    Int
+  anxiety_level  Int?          @db.SmallInt
+  anxiety_reason String?       @db.VarChar
+  user_progress  user_progress @relation(fields: [progress_id], references: [progress_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_post-test_progress")
+
+  @@map("post-test")
+}
+
+model pre_test {
+  pre_test_id    Int           @id(map: "pk_pre_test") @default(autoincrement())
+  progress_id    Int
+  anxiety_level  Int?          @db.SmallInt
+  anxiety_reason String?       @db.VarChar
+  user_progress  user_progress @relation(fields: [progress_id], references: [progress_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_pre-test_progress")
+
+  @@map("pre-test")
+}
+
+model user_detail {
+  detail_id  Int       @id @default(autoincrement())
+  user_id    Int
+  history_xp Int?
+  badge      String?   @db.VarChar
+  times      DateTime? @default(now()) @db.Timestamp(6)
+  users      users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail")
+}
