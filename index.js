@@ -2,13 +2,6 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const bcrypt = require('bcryptjs')
-const multer = require('multer')
-const upload = multer()
-const jwt = require('jsonwebtoken')
-const prisma = require('./services/connection')
-const { z } = require('zod')
-const MiddlleAuthorize = require('./services/middleAuthorization')
 const AuthController = require('./controllers/authController')
 const PostProgress = require('./controllers/postTestController')
 const PreProgress = require('./controllers/preTestController')
@@ -19,9 +12,6 @@ const port = process.env.PORT
 
 app.use(cors())
 app.use(express.json())
-
-const {GoogleGenAI, Type} =  require('@google/genai')
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 
 app.get('/', (req,res)=>{
