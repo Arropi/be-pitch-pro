@@ -2,14 +2,6 @@ const prisma = require('../services/connection')
 
 const findUserByEmail = async (email) => {
     const user = await prisma.users.findUnique({
-        select: {
-            user_id,
-            username,
-            email,
-            avatar,
-            avatar_mimetype,
-            xp
-        },
         where: {
           email: email      
         }
