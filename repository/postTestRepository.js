@@ -35,8 +35,22 @@ const checkPostTest = async (progressId) => {
     return dataUser
 }
 
+const updatePostTest = async (anxiety_level, anxiety_reason, post_test_id) => {
+    const dataUpdated = await prisma.post_test.update({
+        data: {
+            anxiety_level: anxiety_level,
+            anxiety_reason: anxiety_reason
+        },
+        where:{
+            post_test_id: post_test_id
+        }
+    })
+    return dataUpdated
+}
+
 module.exports = {
     findProgressUserInStory,
     insertUserPostTest,
-    checkPostTest
+    checkPostTest,
+    updatePostTest
 }

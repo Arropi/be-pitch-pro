@@ -17,7 +17,21 @@ const GetScenarioByChapter = async (chapter) => {
     return scenario
 }
 
+const GetUserProgress = async (userId) => {
+  console.log(userId)
+  const dataProgress = await prisma.user_progress.findMany({
+    select: {
+      story_id: true
+    },
+    where:{
+      user_id: userId
+    }
+  })
+  return dataProgress
+}
+
 module.exports = {
     GetUserById,
-    GetScenarioByChapter
+    GetScenarioByChapter,
+    GetUserProgress
 }

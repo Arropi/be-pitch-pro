@@ -58,7 +58,7 @@ const getMetrics = async (storyId, userId) => {
             {text: "Analyze this audio"},
             {
             inlineData: {
-                mimeType: "audio/mp3",
+                mimeType: "audio/ogg",
                 data: buffer.toString("base64"),
             }
             }
@@ -135,7 +135,7 @@ const getTimeSeries = async (storyId, userId) => {
             {text: "Analyze this audio"},
             {
             inlineData: {
-                mimeType: "audio/mp3",
+                mimeType: "audio/ogg",
                 data: buffer.toString("base64"),
             }
             }

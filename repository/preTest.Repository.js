@@ -30,8 +30,22 @@ const checkPreTest = async (progressId) => {
     return dataUser
 }
 
+const updatePreTest = async (anxiety_level, anxiety_reason, pre_test_id) => {
+    const dataUpdated = await prisma.pre_test.update({
+        data: {
+            anxiety_level: anxiety_level,
+            anxiety_reason: anxiety_reason
+        },
+        where:{
+            pre_test_id: pre_test_id
+        }
+    })
+    return dataUpdated
+}
+
 module.exports = {
     insertUserProgress,
     insertPreTestUser,
-    checkPreTest
+    checkPreTest,
+    updatePreTest
 }

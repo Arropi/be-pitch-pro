@@ -3,7 +3,8 @@ const authorizeToken = require('../services/middleAuthorization')
 const route = express.Router()
 const { z, ZodError } = require('zod')
 const { postUserProgress } = require('../services/preTestService')
-const { postUserPostTest } = require('../services/postTestService')
+const { postUserPostTest, updateUserPostTest } = require('../services/postTestService')
+const { findProgressUserInStory } = require('../repository/postTestRepository')
 
 
 route.use(authorizeToken)
@@ -26,6 +27,23 @@ route.post('/:story_id', async (req,res) =>{
         } else {
             res.status(400).json({"message": error.message})
         }
+    }
+})
+
+route.put('/:story_id', async (req, res) => {
+    try {
+        const story_id = req.params.story_id
+        const {user_id} = req.user.getUser
+        const {anxiety_level, anxiety_reason} = req.body
+        const updated = await updateUserPostTest(story_id, user_id, anxiety_level, anxiety_reason)
+        return res.status(200).json({
+            "message": "Updated Succesfully",
+            "data": updated
+        })
+    } catch (error) {
+        return res.status(400).json({
+            "message": error.message
+        })        
     }
 })
 

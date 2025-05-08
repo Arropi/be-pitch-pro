@@ -1,4 +1,4 @@
-const { findProgressUserInStory, insertUserPostTest } = require("../repository/postTestRepository")
+const { findProgressUserInStory, insertUserPostTest, checkPostTest, updatePostTest } = require("../repository/postTestRepository")
 
 const postUserPostTest = async (story_id, user_id, anxiety_level, anxiety_reason) => {
     const userProgress = await findProgressUserInStory(parseInt(user_id), parseInt(story_id))
@@ -10,6 +10,16 @@ const postUserPostTest = async (story_id, user_id, anxiety_level, anxiety_reason
     return postUserPreTest
 }
 
+const updateUserPostTest = async (storyId, userId, anxiety_level, anxiety_reason) => {
+    storyId = parseInt(storyId)
+    userId = parseInt(userId)
+    const {progress_id} = await findProgressUserInStory(userId, storyId)
+    const {post_test_id} = await checkPostTest(progress_id)
+    const updated = await updatePostTest(anxiety_level,anxiety_reason,post_test_id)
+    return updated
+}
+
 module.exports = {
-    postUserPostTest
+    postUserPostTest,
+    updateUserPostTest
 }
