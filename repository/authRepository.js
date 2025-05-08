@@ -2,6 +2,14 @@ const prisma = require('../services/connection')
 
 const findUserByEmail = async (email) => {
     const user = await prisma.users.findUnique({
+        select: {
+            user_id,
+            username,
+            email,
+            avatar,
+            avatar_mimetype,
+            xp
+        },
         where: {
           email: email      
         }
@@ -9,14 +17,7 @@ const findUserByEmail = async (email) => {
     return user
 }
 
-const findUser = async (indicator) =>{
-    const user = await prisma.users.findUnique({
-        where: {
-            indicator
-        }
-    })
-    return user
-}
+
 
 const findUserByUsername = async (username) => {
     const user = await prisma.users.findUnique({
@@ -39,7 +40,6 @@ const createUser = async (userData, password_hashed) =>{
 }
 
 module.exports = {
-    findUser,
     findUserByEmail,
     findUserByUsername, 
     createUser

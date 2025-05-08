@@ -7,6 +7,7 @@ const PostProgress = require('./controllers/postTestController')
 const PreProgress = require('./controllers/preTestController')
 const AllScenario = require('./controllers/commonFeature/storiesController') 
 const ChallengeFeedback = require('./controllers/challengeFeedbackController')
+const User = require('./controllers/commonFeature/profileController')
 const port = process.env.PORT
 
 
@@ -16,7 +17,7 @@ app.use(express.json())
 
 app.get('/', (req,res)=>{
     res.json({
-        "message": "Hello World"
+        "message": "Hello World!"
     })
 })
 
@@ -30,7 +31,7 @@ app.use('/post-test', PostProgress)
 
 app.use('/generate', ChallengeFeedback)
 
-
+app.use('/user', User)
 
 
 app.listen(port, ()=>{

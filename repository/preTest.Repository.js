@@ -21,7 +21,17 @@ const insertPreTestUser = async (anxiety_level, anxiety_reason, progress_id) => 
     return createdUserPreTest
 }
 
+const checkPreTest = async (progressId) => {
+    const dataUser = await prisma.pre_test.findFirst({
+        where: {
+            progress_id: progressId
+        }
+    })
+    return dataUser
+}
+
 module.exports = {
     insertUserProgress,
-    insertPreTestUser
+    insertPreTestUser,
+    checkPreTest
 }

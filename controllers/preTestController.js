@@ -9,7 +9,6 @@ route.use(authorizeToken)
 
 route.post('/:story_id', async (req,res) =>{
     try {
-        console.log('Masukk')
         const story_id = req.params.story_id
         const {user_id} = req.user.getUser
         const {anxiety_level, anxiety_reason} = req.body

@@ -26,6 +26,8 @@ model stories {
   tema               String?         @db.VarChar
   system_instruction String?         @db.VarChar
   chapter            Int?
+  badge_id           Int?
+  badge              badge?          @relation(fields: [badge_id], references: [badge_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_stories_badge")
   user_progress      user_progress[]
 }
 
@@ -44,8 +46,8 @@ model user_progress {
 model detail_progress {
   progress_id      Int           @id(map: "pk_progress_id")
   audio            Bytes?
-  feedback_history String?       @db.VarChar
   accumulate_xp    Int?
+  history_feedback Json?
   user_progress    user_progress @relation(fields: [progress_id], references: [progress_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_progress_detail_progress")
 }
 
@@ -73,7 +75,17 @@ model user_detail {
   detail_id  Int       @id @default(autoincrement())
   user_id    Int
   history_xp Int?
-  badge      String?   @db.VarChar
   times      DateTime? @default(now()) @db.Timestamp(6)
+  badge_id   Int?
   users      users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail")
+  badge      badge?    @relation(fields: [badge_id], references: [badge_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail_badge")
+}
+
+model badge {
+  badge_id     Int           @id @default(autoincrement())
+  badge_name   String?       @db.VarChar
+  category     String?       @db.VarChar
+  requirements String?       @db.VarChar
+  stories      stories[]
+  user_detail  user_detail[]
 }

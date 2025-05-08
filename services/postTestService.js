@@ -2,7 +2,6 @@ const { findProgressUserInStory, insertUserPostTest } = require("../repository/p
 
 const postUserPostTest = async (story_id, user_id, anxiety_level, anxiety_reason) => {
     const userProgress = await findProgressUserInStory(parseInt(user_id), parseInt(story_id))
-    console.log(userProgress)
     if (userProgress === null ){
         throw Error("Sorry, to do this you need to pre test first")
     }

@@ -11,9 +11,11 @@ router.post('/register', async(req, res) =>{
         const email = z.string({required_error: "Please enter the email"}).endsWith('@gmail.com', {message: "Email is not valid, please using @gmail.com"}).parse(userData.email)
         const password = z.string({required_error: "Please enter the password"}).min(8, 'Must be 8 character').parse(userData.password)
         const inputUser = await postDataUser(userData)
+        const {getUser, accessToken} = await getAccessToken(userData)
         return res.status(201).json({
             "message": "Registration Succesful",
-            "data" : inputUser
+            "data" : inputUser,
+            "accessToken": accessToken
         })
     } catch (error) {
         if (error instanceof ZodError){
