@@ -52,12 +52,13 @@ const updateDetailProgress = async (progressId, feedback, accumulateXp) => {
   })
 }
 
-const saveUserDetail = async (userId, accumulate_xp, badge) => {
+const saveUserDetail = async (userId, accumulate_xp, badge, progress_id) => {
   const saveUserDetail = await prisma.user_detail.create({
     data: {
       user_id: userId,
       history_xp: accumulate_xp,
-      badge_id: badge
+      badge_id: badge,
+      progress_id: progress_id
     }
   })  
 }

@@ -8,6 +8,7 @@ const PreProgress = require('./controllers/preTestController')
 const AllScenario = require('./controllers/commonFeature/storiesController') 
 const ChallengeFeedback = require('./controllers/challengeFeedbackController')
 const User = require('./controllers/commonFeature/profileController')
+const EndingFeedback = require('./controllers/EndingFeedbackController')
 const port = process.env.PORT
 
 
@@ -33,6 +34,7 @@ app.use('/generate', ChallengeFeedback)
 
 app.use('/user', User)
 
+app.use('/ending-feedback', EndingFeedback)
 
 app.listen(port, ()=>{
   console.log(`Server menyala pada port ${port}`)

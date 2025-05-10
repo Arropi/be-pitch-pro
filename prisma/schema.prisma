@@ -40,6 +40,7 @@ model user_progress {
   detail_progress detail_progress?
   post_test       post_test[]
   pre_test        pre_test[]
+  user_detail     user_detail[]
   stories         stories          @relation(fields: [story_id], references: [story_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_progress_story")
   users           users            @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_progress_user")
 }
@@ -73,13 +74,15 @@ model pre_test {
 }
 
 model user_detail {
-  detail_id  Int       @id @default(autoincrement())
-  user_id    Int
-  history_xp Int?
-  times      DateTime? @default(now()) @db.Timestamp(6)
-  badge_id   Int?
-  users      users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail")
-  badge      badge?    @relation(fields: [badge_id], references: [badge_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail_badge")
+  detail_id     Int            @id @default(autoincrement())
+  user_id       Int
+  history_xp    Int?
+  times         DateTime?      @default(now()) @db.Timestamp(6)
+  badge_id      Int?
+  progress_id   Int?
+  users         users          @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail")
+  badge         badge?         @relation(fields: [badge_id], references: [badge_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail_badge")
+  user_progress user_progress? @relation(fields: [progress_id], references: [progress_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_user_detail_user_progress")
 }
 
 model badge {

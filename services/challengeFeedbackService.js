@@ -59,7 +59,7 @@ const getMetrics = async (storyId, userId) => {
             {text: "Analyze this audio"},
             {
             inlineData: {
-                mimeType: "audio/ogg",
+                mimeType: "audio/wav",
                 data: buffer.toString("base64"),
             }
             }
@@ -136,7 +136,7 @@ const getTimeSeries = async (storyId, userId) => {
             {text: "Analyze this audio"},
             {
             inlineData: {
-                mimeType: "audio/ogg",
+                mimeType: "audio/wav",
                 data: buffer.toString("base64"),
             }
             }
@@ -205,7 +205,7 @@ const getFeedback = async (storyId, userId) => {
             "badge": badge_id
         }
         const savedFeedback = await updateDetailProgress(progress_id, allData, accumulateXp)
-        const savedUserDetail = await saveUserDetail(userId, accumulateXp, badge_id)
+        const savedUserDetail = await saveUserDetail(userId, accumulateXp, badge_id, progress_id)
         const updatedUser = await updateUserInformation(userId, accumulateXp)
         return allData
     }
@@ -233,7 +233,7 @@ const updateFeedback = async (storyId, userId, audio) => {
             "badge": badge_id
         }
         const savedFeedback = await updateDetailProgress(progress_id, allData, accumulateXp)
-        const savedUserDetail = await saveUserDetail(userId, accumulateXp, badge_id)
+        const savedUserDetail = await saveUserDetail(userId, accumulateXp, badge_id, progress_id)
         const updatedUser = await updateUserInformation(userId, accumulateXp)
         return validation
     }
