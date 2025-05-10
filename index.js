@@ -9,6 +9,7 @@ const AllScenario = require('./controllers/commonFeature/storiesController')
 const ChallengeFeedback = require('./controllers/challengeFeedbackController')
 const User = require('./controllers/commonFeature/profileController')
 const EndingFeedback = require('./controllers/EndingFeedbackController')
+const Badge = require('./controllers/commonFeature/badgeController')
 const port = process.env.PORT
 
 
@@ -33,6 +34,8 @@ app.use('/post-test', PostProgress)
 app.use('/generate', ChallengeFeedback)
 
 app.use('/user', User)
+
+app.use('/badge', Badge)
 
 app.use('/ending-feedback', EndingFeedback)
 
