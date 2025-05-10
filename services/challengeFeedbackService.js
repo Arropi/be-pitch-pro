@@ -5,7 +5,6 @@ const { findProgressUserInStory } = require('../repository/postTestRepository');
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const getValidation = async (storyId, userId, audio) => {
-    console.log(audio)
     const getStoryInformation = await getDetailStory(parseInt(storyId))
     const {progress_id} = await findProgressUserInStory(parseInt(userId), parseInt(storyId))
     const systemInstruction = getStoryInformation.system_instruction
@@ -40,10 +39,12 @@ const getValidation = async (storyId, userId, audio) => {
     if (progressUser === null) {
         const saveProgress = await saveDetailProgress(progress_id, audio.buffer)
         const data = {...nextScene, ...saveProgress}
+        console.log(data)
         return data
     } else if (progressUser.audio !== null){
         const saveProgress = await updateAudioProgress(progress_id, audio.buffer)
         const data = {...nextScene, ...saveProgress}
+        console.log(data)
         return data
     }
 }

@@ -18,7 +18,6 @@ const GetScenarioByChapter = async (chapter) => {
 }
 
 const GetUserProgress = async (userId) => {
-  console.log(userId)
   const dataProgress = await prisma.user_progress.findMany({
     select: {
       story_id: true

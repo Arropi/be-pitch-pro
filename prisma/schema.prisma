@@ -27,6 +27,7 @@ model stories {
   system_instruction String?         @db.VarChar
   chapter            Int?
   badge_id           Int?
+  checkpoint_pack    Int?
   badge              badge?          @relation(fields: [badge_id], references: [badge_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_stories_badge")
   user_progress      user_progress[]
 }

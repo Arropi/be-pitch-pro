@@ -10,6 +10,27 @@ const insertUserProgress = async (story_id, user_id) => {
     return createdUserProgress
 }
 
+const getStoryPack = async (package) => {
+    const dataPack = await prisma.stories.findMany({
+        select: {
+            story_id: true
+        },
+        where: {
+            checkpoint_pack: package
+        }
+    })
+    return dataPack
+}
+
+const getPackage = async (storyId) => {
+    const package = await prisma.stories.findUnique({
+        where: {
+            story_id: storyId
+        }
+    })
+    return package
+}
+
 const insertPreTestUser = async (anxiety_level, anxiety_reason, progress_id) => {
     const createdUserPreTest = await prisma.pre_test.create({
         data:{
@@ -47,5 +68,7 @@ module.exports = {
     insertUserProgress,
     insertPreTestUser,
     checkPreTest,
-    updatePreTest
+    updatePreTest,
+    getStoryPack,
+    getPackage
 }
