@@ -12,7 +12,6 @@ const postUserProgress = async (story_id, user_id, anxiety_level, anxiety_reason
     const {checkpoint_pack} = await getPackage(parseInt(story_id))
     const dataStory = []
     const story = await getStoryPack(checkpoint_pack)
-    console.log(dataStory)
     story.forEach((element) =>{
         dataStory.push(element.story_id)
     })

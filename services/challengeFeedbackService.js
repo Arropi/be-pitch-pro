@@ -37,6 +37,7 @@ const getValidation = async (storyId, userId, audio) => {
     let nextScene = JSON.parse(generateValidation.text)
     const progressUser = await getDetailProgress(progress_id)
     if (progressUser === null) {
+        console.log(audio.buffer)
         const saveProgress = await saveDetailProgress(progress_id, audio.buffer)
         const data = {...nextScene, ...saveProgress}
         console.log(data)
@@ -146,13 +147,13 @@ const getTimeSeries = async (storyId, userId) => {
         Example Output Format:
 {
     timeSeries: [
-        { time: '5s', wpm: 130, intonation: 65, volume: 72 },
-        { time: '10s', wpm: 140, intonation: 70, volume: 68 },
-        { time: '15s', wpm: 155, intonation: 82, volume: 75 },
-        { time: '20s', wpm: 148, intonation: 78, volume: 70 },
-        { time: '25s', wpm: 135, intonation: 60, volume: 65 },
-        { time: '30s', wpm: 160, intonation: 85, volume: 77 },
-        { time: '35s', wpm: 142, intonation: 72, volume: 71 },
+        { time: "5s", wpm: 130, intonation: 65, volume: 72 },
+        { time: "10s", wpm: 140, intonation: 70, volume: 68 },
+        { time: "15s", wpm: 155, intonation: 82, volume: 75 },
+        { time: "20s", wpm: 148, intonation: 78, volume: 70 },
+        { time: "25s", wpm: 135, intonation: 60, volume: 65 },
+        { time: "30s", wpm: 160, intonation: 85, volume: 77 },
+        { time: "35s", wpm: 142, intonation: 72, volume: 71 },
       ],
 }
   every 5 second interval all aspect needed time wpm intonation and volume`,
@@ -161,6 +162,7 @@ const getTimeSeries = async (storyId, userId) => {
         }
     })
     const cleanedText = generateTimeSeries.text.replace("```json", '').replace("```", '');
+    console.log(cleanedText)
     const timeSeries = JSON.parse(cleanedText)
     return timeSeries
 }
@@ -196,6 +198,7 @@ const getFeedback = async (storyId, userId) => {
         const dataMetrics = await getMetrics(storyId, userId)
         const accumulateXp = dataMetrics.metrics.overall * 20
         const dataTimeSeries = await getTimeSeries(storyId, userId)
+        console.log(dataTimeSeries)
         const dataFeedback = {
           "metrics": dataMetrics.metrics,
           "timeSeries": dataTimeSeries.timeSeries

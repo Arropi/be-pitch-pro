@@ -24,6 +24,7 @@ route.post('/:story_id', upload.single('audio'), async (req, res) =>{
         "result": validation.result
       })
     } catch (error) {
+      console.log(error)
       return res.status(400).json({
         'message': error.message
       })
@@ -40,6 +41,7 @@ route.get('/:story_id', async (req, res) =>{
       "data": data
     })
   } catch (error) {
+    console.log(error)
     return res.status(400).json({
       "error": error.message
     })    
