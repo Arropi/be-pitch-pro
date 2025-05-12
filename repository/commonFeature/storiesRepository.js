@@ -20,6 +20,7 @@ const GetScenarioByChapter = async (chapter) => {
 const GetUserProgress = async (userId) => {
   const dataProgress = await prisma.user_progress.findMany({
     select: {
+      progress_id: true,
       story_id: true
     },
     where:{
