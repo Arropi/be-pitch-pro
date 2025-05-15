@@ -43,7 +43,7 @@ const ScenarioList = async (chapter, userId) => {
             const { progress_id } = await findProgressUserInStory(userId, data.story_id)
             var generated = await getDetailProgress(progress_id)
             if (generated) {
-                generated = Boolean(generated.audio)
+                generated = Boolean(generated.history_feedback)
             } else {
                 generated = false
             }

@@ -127,6 +127,89 @@ const getMetrics = async (storyId, userId) => {
     return metrics
 }
 
+const getImprovement = async (storyId, userId) => {
+    const {progress_id} = await findProgressUserInStory(parseInt(userId), parseInt(storyId))
+    const dataAudio = await getDetailProgress(progress_id)
+    const buffer = Buffer.from(dataAudio.audio)
+    const generateImprovement = await ai.models.generateContent({
+        model: "gemini-2.0-flash",
+        contents: [
+            {text: "Analyze this audio"},
+            {
+            inlineData: {
+                mimeType: "audio/wav",
+                data: buffer.toString("base64"),
+            }
+            }
+        ],
+        config: {
+            systemInstruction:`You are a presentation analyzer. Your task is to evaluate a presentation based on the following aspects and return a concise analysis in a listed format. For each aspect, provide specific suggestions for improvement (maximum 50 words each). At the end, include a brief motivational critique.
+
+Evaluation Aspects:
+
+Pace: Suggest improvements for the speaker’s speaking speed. (Max 50 words)
+
+Intonation: Suggest improvements for the speaker’s vocal variety and expression. (Max 50 words)
+
+Articulation: Suggest improvements on how clearly the speaker pronounces words. (Max 50 words)
+
+Word Choice: Suggest improvements regarding vocabulary, clarity, and filler words. (Max 50 words)
+
+Overall: Provide an overall critique and field of improvement for the speaker, ending with a motivational message. (Max 50 words)
+
+Example Output Format:        
+Pace: Try to maintain a more consistent speed, avoiding sudden rushes. Pausing after key points may help the audience follow along better.
+Intonation: Vary your tone more to emphasize important parts. This will help maintain listener interest and convey confidence.
+Articulation: Focus on pronouncing each word clearly, especially at the end of sentences. This will boost understanding and professionalism.
+Word Choice: Avoid filler words like "um" and "you know." Practice with short pauses instead to maintain fluency and control.
+Overall: Great effort! With better pacing and clarity, your message will shine. Keep practicing—you’re on the right track!
+`,
+            temperature: 0.2,
+            responseMimeType: 'application/json',
+            responseSchema: {
+                type: Type.OBJECT,
+                properties: {
+                    'improvement': {
+                    type: Type.OBJECT,
+                    nullable: false,
+                    properties: {
+                        'pace': {
+                            type: Type.STRING,
+                            nullable: false,
+                            description: 'Suggest improvements for the speaker’s speaking speed. (Max 50 words)'
+                        },
+                        'intonation': {
+                            type: Type.STRING,
+                            nullable: false,
+                            description: 'Suggest improvements for the speaker’s vocal variety and expression. (Max 50 words)'
+                        },
+                        'articulation': {
+                            type: Type.STRING,
+                            nullable: false,
+                            description: 'Suggest improvements on how clearly the speaker pronounces words. (Max 50 words)'
+                        },
+                        'word-choice': {
+                            type: Type.STRING,
+                            nullable: false,
+                            description: 'Suggest improvements regarding vocabulary, clarity, and filler words. (Max 50 words)'
+                        },
+                        'overall': {
+                            type: Type.STRING,
+                            nullable: false,
+                            description: 'Provide an overall critique and field of improvement for the speaker, ending with a motivational message. (Max 50 words)'
+                        }
+                    },
+                    required: ["pace", "intonation", "articulation", "word-choice", "overall"]
+                    }
+                }
+            }
+        }
+    })
+    console.log(generateImprovement.text)
+    const metrics = JSON.parse(generateImprovement.text)
+    return metrics
+}
+
 const getTimeSeries = async (storyId, userId) => {
     const {progress_id} = await findProgressUserInStory(parseInt(userId), parseInt(storyId))
     const dataAudio = await getDetailProgress(progress_id)
@@ -144,19 +227,19 @@ const getTimeSeries = async (storyId, userId) => {
         ],
         config: {
             systemInstruction:`You are a audio analyzer. Evaluate the audio from user based on the following aspects and provide a concise analysis in a listed format
-        Example Output Format:
+Example Output Format JSON:
 {
-    timeSeries: [
-        { time: "5s", wpm: 130, intonation: 65, volume: 72 },
-        { time: "10s", wpm: 140, intonation: 70, volume: 68 },
-        { time: "15s", wpm: 155, intonation: 82, volume: 75 },
-        { time: "20s", wpm: 148, intonation: 78, volume: 70 },
-        { time: "25s", wpm: 135, intonation: 60, volume: 65 },
-        { time: "30s", wpm: 160, intonation: 85, volume: 77 },
-        { time: "35s", wpm: 142, intonation: 72, volume: 71 },
+    "timeSeries": [
+        { "time" : "5s", "wpm": 130, "intonation": 65, "articulation": 72 },
+        { "time" : "10s", "wpm": 140, "intonation": 70, "articulation": 68 },
+        { "time" : "15s", "wpm": 155, "intonation": 82, "articulation": 75 },
+        { "time" : "20s", "wpm": 148, "intonation": 78, "articulation": 70 },
+        { "time" : "25s", "wpm": 135, "intonation": 60, "articulation": 65 },
+        { "time" : "30s", "wpm": 160, "intonation": 85, "articulation": 77 },
+        { "time" : "35s", "wpm": 142, "intonation": 72, "articulation": 71 }
       ],
 }
-  every 5 second interval all aspect needed time wpm intonation and volume`,
+  every 5 second interval all aspect needed time wpm intonation and articulation`,
             temperature: 0.2,
             maxOutputTokens: 700,
         }
@@ -198,10 +281,12 @@ const getFeedback = async (storyId, userId) => {
         const dataMetrics = await getMetrics(storyId, userId)
         const accumulateXp = dataMetrics.metrics.overall * 20
         const dataTimeSeries = await getTimeSeries(storyId, userId)
-        console.log(dataTimeSeries)
+        const dataImprovement = await getImprovement(storyId, userId)
+        console.log(dataImprovement)
         const dataFeedback = {
           "metrics": dataMetrics.metrics,
-          "timeSeries": dataTimeSeries.timeSeries
+          "timeSeries": dataTimeSeries.timeSeries,
+          "improvement": dataImprovement.improvement
         }
         const allData = {
             dataFeedback,
@@ -227,9 +312,11 @@ const updateFeedback = async (storyId, userId, audio) => {
         const dataMetrics = await getMetrics(storyId, userId)
         const accumulateXp = dataMetrics.metrics.overall * 20
         const dataTimeSeries = await getTimeSeries(storyId, userId)
+        const dataImprovement = await getImprovement(storyId, userId)
         const dataFeedback = {
           "metrics": dataMetrics.metrics,
-          "timeSeries": dataTimeSeries.timeSeries
+          "timeSeries": dataTimeSeries.timeSeries,
+          "improvement": dataImprovement.improvement
         }
         const allData = {
             dataFeedback,
