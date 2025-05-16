@@ -15,7 +15,7 @@ const port = process.env.PORT
 
 
 app.use(cors({
-  origin: 'https://pitchpro-fe.vercel.app/'
+  origin: 'https://pitchpro-fe.vercel.app/profile'
 }))
 app.use(express.json())
 
