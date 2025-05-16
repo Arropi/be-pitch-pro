@@ -4,7 +4,7 @@ Gamification for a web application utilizing Gemini AI to analyze provided audio
 
 ## Overview
 
-Pitch-Pro is a web-based application designed to provide users with a gamified experience. The application leverages Gemini AI to analyze audio uploaded by users, deliver feedback, and help improve their presentation skills. With features such as pre-tests, post-tests, and audio analysis, this app aims to deliver an engaging and interactive learning experience.
+**PitchPro** a realistic learning experience and judgment-free learning environment platform designed to build confidence, communication, and real-world soft skills. We combined Psychological, Gamification, and AI into a single platform for speaking practice that is practical, accessible, enjoyable, and emotionally supportive.
 
 ## Key Features
 
