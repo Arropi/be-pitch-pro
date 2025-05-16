@@ -13,7 +13,7 @@ const Badge = require('./controllers/commonFeature/badgeController')
 const Video = require('./controllers/videoSceneController')
 const port = process.env.PORT
 const corsOptions = {
-  origin: '*',
+  origin: ['https://pitchpro-fe.vercel.app', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }
@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 app.use(cors(corsOptions))
-app.options('*', cors(corsOptions))
+
 
 
 
