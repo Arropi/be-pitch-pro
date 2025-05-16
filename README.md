@@ -1,25 +1,25 @@
 # Pitch-Pro
 
-Gamifikasi untuk website application dengan memanfaatkan Gemini AI untuk menganalisa audio yang diberikan.
+Gamification for a web application utilizing Gemini AI to analyze provided audio.
 
 ## Overview
 
-Pitch-Pro adalah aplikasi berbasis web yang dirancang untuk memberikan pengalaman gamifikasi kepada pengguna. Aplikasi ini memanfaatkan Gemini AI untuk menganalisis audio yang diunggah oleh pengguna, memberikan umpan balik, dan membantu meningkatkan keterampilan presentasi mereka. Dengan fitur seperti pre-test, post-test, dan analisis audio, aplikasi ini bertujuan untuk memberikan pengalaman belajar yang interaktif dan menyenangkan.
+Pitch-Pro is a web-based application designed to provide users with a gamified experience. The application leverages Gemini AI to analyze audio uploaded by users, deliver feedback, and help improve their presentation skills. With features such as pre-tests, post-tests, and audio analysis, this app aims to deliver an engaging and interactive learning experience.
 
 ## Key Features
 
-- **User Authentication**: Registrasi dan login pengguna dengan validasi menggunakan token JWT.
-- **Pre-Test dan Post-Test**: Pengguna dapat mengikuti pre-test dan post-test untuk mengevaluasi kemajuan mereka.
-- **Audio Analysis**: Menggunakan Gemini AI untuk menganalisis audio pengguna berdasarkan berbagai metrik seperti intonasi, artikulasi, dan kecepatan.
-- **Feedback**: Memberikan umpan balik yang mendalam dan terstruktur untuk membantu pengguna meningkatkan keterampilan mereka.
-- **Gamifikasi**: Sistem XP dan lencana untuk memotivasi pengguna.
-- **Scenario Management**: Daftar skenario berdasarkan bab yang dapat diakses oleh pengguna.
-- **Badge System**: Pengguna dapat melihat dan mengumpulkan lencana berdasarkan pencapaian mereka.
+- **User Authentication**: User registration and login with JWT-based token validation.
+- **Pre-Test dan Post-Test**: Users can take pre-tests and post-tests to assess their progress.
+- **Audio Analysis**: Uses Gemini AI to analyze user audio based on various metrics such as intonation, articulation, and speed.
+- **Feedback**: Provides in-depth and structured feedback to help users enhance their skills.
+- **Gamifikasi**: XP and badge system to motivate users.
+- **Scenario Management**:  A list of scenarios categorized by chapters, accessible to users.
+- **Badge System**: Users can view and collect badges based on their achievements.
 
 ## Tech Stack
 
 - **Backend**: Node.js, Express.js
-- **Database**: PostgreSQL dengan Prisma ORM
+- **Database**: PostgreSQL with Prisma ORM
 - **AI Integration**: Gemini AI
 - **Authentication**: JSON Web Token (JWT)
 - **Validation**: Zod
@@ -28,12 +28,12 @@ Pitch-Pro adalah aplikasi berbasis web yang dirancang untuk memberikan pengalama
 
 ## Installation
 
-1. Clone repository ini:
+1. Clone this repository:
    ```bash
    git clone https://github.com/username/pitch-pro.git
    cd pitch-pro
    ```
-2. Install dependencies:
+2. Install the dependencies:
     ```bash
    npm install
    ```
@@ -41,14 +41,14 @@ Pitch-Pro adalah aplikasi berbasis web yang dirancang untuk memberikan pengalama
     ```bash
     npx prisma generate
    ```
-4. Jalankan aplikasi: 
+4. Run the application: 
     ```bash
     npm start
     ```
 
 ## ENV
 
-Buat file `.env` di root folder dengan variabel berikut:
+Create a `.env` file in the root directory with the following variables:
 
 ```env
 GEMINI_API_KEY=<Your Gemini API Key>
