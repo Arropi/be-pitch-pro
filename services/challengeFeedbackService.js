@@ -9,7 +9,7 @@ const getValidation = async (storyId, userId, audio) => {
     const {progress_id} = await findProgressUserInStory(parseInt(userId), parseInt(storyId))
     const systemInstruction = getStoryInformation.system_instruction
     const generateValidation = await ai.models.generateContent({ 
-        model: "gemini-2.5-flash-preview-04-17",
+        model: "gemini-2.0-flash",
         contents: [
             {
                 inlineData: {
@@ -34,7 +34,9 @@ const getValidation = async (storyId, userId, audio) => {
             }
         }
     })
-    let nextScene = JSON.parse(generateValidation.text)
+    const result = generateValidation.text
+    console.log(result)
+    let nextScene = JSON.parse(result)
     const progressUser = await getDetailProgress(progress_id)
     if (progressUser === null) {
         console.log(audio.buffer)
