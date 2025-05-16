@@ -13,10 +13,9 @@ route.use(authorizeToken)
 
 route.get('/', async (req, res) => {
     try {
-        const fileName = req.query.filename;
-        const url = await videoUrlGCloud(fileName)
+        const url = await videoUrlGCloud()
         res.status(200).json({
-            "message": `Getting URL Video of ${fileName} Succesfully`, 
+            "message": `Getting All URL Video Succesfully`, 
             url 
         });
     } catch (err) {
