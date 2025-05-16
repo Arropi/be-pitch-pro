@@ -241,7 +241,7 @@ Example Output Format JSON:
         { "time" : "35s", "wpm": 142, "intonation": 72, "articulation": 71 }
       ],
 }
-  every 5 second interval all aspect needed time wpm intonation and articulation`,
+make object for every 5 second interval all aspect needed time wpm intonation and articulation`,
             temperature: 0.2,
             maxOutputTokens: 700,
         }

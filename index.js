@@ -14,7 +14,9 @@ const Video = require('./controllers/videoSceneController')
 const port = process.env.PORT
 
 
-app.use(cors())
+app.use(cors({
+  origin: 'https://pitchpro-fe.vercel.app/'
+}))
 app.use(express.json())
 
 
