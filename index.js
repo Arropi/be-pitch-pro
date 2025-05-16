@@ -12,11 +12,19 @@ const EndingFeedback = require('./controllers/EndingFeedbackController')
 const Badge = require('./controllers/commonFeature/badgeController')
 const Video = require('./controllers/videoSceneController')
 const port = process.env.PORT
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}
 
 
-app.use(cors({
-  origin: 'https://pitchpro-fe.vercel.app/profile'
-}))
+
+app.use(cors(corsOptions))
+app.options('*', cors(corsOptions))
+
+
+
 app.use(express.json())
 
 
