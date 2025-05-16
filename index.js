@@ -10,6 +10,7 @@ const ChallengeFeedback = require('./controllers/challengeFeedbackController')
 const User = require('./controllers/commonFeature/profileController')
 const EndingFeedback = require('./controllers/EndingFeedbackController')
 const Badge = require('./controllers/commonFeature/badgeController')
+const Video = require('./controllers/videoSceneController')
 const port = process.env.PORT
 
 
@@ -38,6 +39,8 @@ app.use('/user', User)
 app.use('/badge', Badge)
 
 app.use('/ending-feedback', EndingFeedback)
+
+app.use('/media', Video)
 
 app.listen(port, ()=>{
   console.log(`Server menyala pada port ${port}`)
