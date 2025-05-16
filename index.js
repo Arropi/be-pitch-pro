@@ -12,24 +12,16 @@ const EndingFeedback = require('./controllers/EndingFeedbackController')
 const Badge = require('./controllers/commonFeature/badgeController')
 const Video = require('./controllers/videoSceneController')
 const port = process.env.PORT
-const corsOptions = {
-  origin: ['https://pitchpro-fe.vercel.app', 'http://localhost:3000'],
+
+
+
+app.use(cors({
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}
+}))
 
-
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Origin', '*'); 
-  next();
-});
-
-app.use(cors(corsOptions))
-
-
+app.options('*', cors())
 
 
 app.use(express.json())
